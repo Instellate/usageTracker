@@ -36,7 +36,8 @@ qt_add_executable(usageTracker src/main.cpp
 )
 
 qt_add_qml_module(usageTracker
-        URI tracker
+        VERSION 1.0
+        URI UsageTracker
         OUTPUT_DIRECTORY qmlGen
         RESOURCE_PREFIX /qt/qml
         QML_FILES ${UNSORTED_FILES}

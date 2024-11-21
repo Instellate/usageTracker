@@ -1,9 +1,7 @@
 import QtQuick 2.6
-import QtQuick.Controls 2.0
+import QtQuick.Controls
 import QtQuick.Layouts 1.1
-import tracker
-
-const primaryColor = '#29b6f6';
+import UsageTracker 1.0
 
 ApplicationWindow {
     id: root
@@ -12,27 +10,29 @@ ApplicationWindow {
     visible: true
     color: "white"
 
+    property color primaryColor: "#29b6f6"
+    property variant timeSeries: []
+    required property int refreshRate
+
     CpuTimer {
         id: timer
+        refreshRate: root.refreshRate
+        onUsageChanged: root.timeSeries = [...root.timeSeries, usage]
     }
 
-    StatsGauge {
-        id: gauge
-        value: timer.usage
-        anchors.centerIn: parent
-        primaryColor: primaryColor
+    TimeChart {
+        id: chart
+        values: root.timeSeries
     }
 
     ColumnLayout {
-        anchors.centerIn: gauge
+        anchors.centerIn: chart
 
         Text {
-            color: primaryColor
             text: "CPU usage"
             Layout.alignment: Qt.AlignCenter
         }
         Text {
-            color: primaryColor
             text: `${Math.round(timer.usage * 1000) / 10}%`
             Layout.alignment: Qt.AlignCenter
         }

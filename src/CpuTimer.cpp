@@ -21,8 +21,17 @@ double_t CpuTimer::usage() const {
     return _usage;
 }
 
+int32_t CpuTimer::refreshRate() const {
+    return _timer->interval();
+}
+
+void CpuTimer::setRefreshRate(const int32_t refreshRate) {
+    _timer->setInterval(refreshRate);
+    emit refreshRateChanged();
+}
+
 void CpuTimer::updateUsage() {
-#ifdef Q_OS_UNIX
+#ifdef Q_OS_LINUX
     int64_t idleSum = 0;
     int64_t restSum = 0;
 
@@ -55,7 +64,7 @@ void CpuTimer::updateUsage() {
     _idleSum = idleSum;
     _restSum = restSum;
     emit usageChanged();
-#endif // Q_OS_UNIX
+#endif // Q_OS_LINUX
 
 #ifdef Q_OS_WIN
     _query.refresh();
