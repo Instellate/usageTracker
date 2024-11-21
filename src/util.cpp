@@ -7,6 +7,7 @@ QSharedPointer<IPerformanceHandler> getSharedPerformanceHandler() {
     static QSharedPointer<Linux::LinuxPerformanceHandler> linuxPtr{new Linux::LinuxPerformanceHandler};
     return linuxPtr;
 #endif // Q_OS_LINUX
+
 #ifdef Q_OS_WIN
     static QSharedPointer<Windows::WindowsPerformanceHandler> linuxPtr{new Windows::WindowsPerformanceHandler};
     return linuxPtr;

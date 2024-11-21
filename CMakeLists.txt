@@ -37,7 +37,8 @@ qt_add_executable(usageTracker src/main.cpp
         src/CpuTimer.cpp
         src/CpuTimer.h
         src/IPerformanceHandler.h
-        util.h
+        src/util.h
+        src/util.cpp
 )
 
 qt_add_qml_module(usageTracker

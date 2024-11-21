@@ -24,10 +24,8 @@ namespace Windows {
         void refreshValues() override;
 
     private:
-        QReadWriteLock _rwLock;
-        QDateTime _lastCoreFetch;
-
-        Windows::PdhQuery _query;
+        PdhQuery _query;
+        int32_t _coreAmount;
     };
 #endif // Q_OS_WIN
 }
