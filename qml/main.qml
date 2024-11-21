@@ -1,40 +1,70 @@
 import QtQuick 2.6
 import QtQuick.Controls
-import QtQuick.Layouts 1.1
-import UsageTracker 1.0
+import QtQuick.Layouts 1.15
 
 ApplicationWindow {
     id: root
     width: 480
     height: 360
     visible: true
-    color: "white"
+    color: "#111827"
+    palette.text: "white"
 
     property color primaryColor: "#29b6f6"
-    property variant timeSeries: []
     required property int refreshRate
 
-    CpuTimer {
-        id: timer
-        refreshRate: root.refreshRate
-        onUsageChanged: root.timeSeries = [...root.timeSeries, usage]
-    }
+    RowLayout {
+        anchors.fill: parent
 
-    TimeChart {
-        id: chart
-        values: root.timeSeries
-    }
+        TabBar {
+            id: statsTypeBar
+            Layout.preferredWidth: 100
 
-    ColumnLayout {
-        anchors.centerIn: chart
+            contentItem: ListView {
+                model: statsTypeBar.contentModel
+                currentIndex: statsTypeBar.currentIndex
 
-        Text {
-            text: "CPU usage"
-            Layout.alignment: Qt.AlignCenter
+                spacing: statsTypeBar.spacing
+                orientation: ListView.Vertical
+                boundsBehavior: Flickable.StopAtBounds
+                flickableDirection: Flickable.AutoFlickIfNeeded
+                snapMode: ListView.SnapToItem
+                verticalLayoutDirection: ListView.TopToBottom
+
+                highlightMoveDuration: 0
+                highlightRangeMode: ListView.ApplyRange
+                preferredHighlightBegin: 40
+                preferredHighlightEnd: width - 40
+
+            }
+
+            TabButton {
+                text: "Processes"
+                width: 100
+            }
+
+            TabButton {
+                text: "Performance"
+                width: 100
+            }
         }
-        Text {
-            text: `${Math.round(timer.usage * 1000) / 10}%`
-            Layout.alignment: Qt.AlignCenter
+
+        StackLayout {
+            currentIndex: statsTypeBar.currentIndex
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+
+            Item {
+                Text {
+                    color: palette.text
+                    text: "Not yet implemented"
+                }
+            }
+
+            PerformanceTab {
+                refreshRate: root.refreshRate
+            }
         }
     }
+
 }
