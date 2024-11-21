@@ -4,7 +4,7 @@
 
 #include "PdhQuery.h"
 
-using namespace windows;
+using namespace Windows;
 
 PdhQuery::PdhQuery() {
     _module = LoadLibrary(L"pdh.dll");

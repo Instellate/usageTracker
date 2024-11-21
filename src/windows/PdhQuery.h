@@ -8,8 +8,10 @@
 
 #ifdef Q_OS_WIN
 #include <pdh.h>
+#endif
 
-namespace windows {
+namespace Windows {
+#ifdef Q_OS_WIN
     class PdhQuery {
     public:
         PdhQuery();
@@ -31,5 +33,5 @@ namespace windows {
 
         QString formatPdhErrorMessage(PDH_STATUS status) const;
     };
-}
 #endif // Q_OS_WIN
+}

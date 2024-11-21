@@ -36,6 +36,8 @@ endforeach ()
 qt_add_executable(usageTracker src/main.cpp
         src/CpuTimer.cpp
         src/CpuTimer.h
+        src/IPerformanceHandler.h
+        util.h
 )
 
 qt_add_qml_module(usageTracker
@@ -60,9 +62,16 @@ if (WIN32)
     add_compile_definitions(_WIN32_WINNT=0x0A00)
     target_link_libraries(usageTracker PRIVATE pdh)
     target_sources(usageTracker
-            PRIVATE src/windows/PdhQuery.cpp
-            PUBLIC src/windows/PdhQuery.h)
+            PRIVATE src/windows/PdhQuery.cpp src/windows/WindowsPerformanceHandler.cpp
+            PUBLIC src/windows/PdhQuery.h src/windows/WindowsPerformanceHandler.h
+    )
+elseif (LINUX)
+    target_sources(usageTracker
+            PRIVATE src/linux/LinuxPerformanceHandler.cpp
+            PUBLIC src/linux/LinuxPerformanceHandler.h
+    )
 endif ()
+
 
 if ((MSVC) AND (MSVC_VERSION GREATER_EQUAL 1914))
     target_compile_options(usageTracker PUBLIC "/Zc:__cplusplus")

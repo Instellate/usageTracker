@@ -37,30 +37,6 @@ signals:
     void perCoreUsageChanged();
 
 private:
-#ifdef Q_OS_WIN
-    windows::PdhQuery _query;
-#endif // Q_OS_WIN
-
-#ifdef Q_OS_LINUX
-    struct CoreData {
-        CoreData(const CoreData &) = default;
-        CoreData(CoreData &&) = default;
-        CoreData() = default;
-
-        CoreData &operator=(const CoreData &) = default;
-
-        int64_t idleTime = 0;
-        int64_t restTime = 0;
-    };
-
-    int64_t _idleTime = 0;
-    int64_t _restTime = 0;
-    QVector<CoreData> _coreData;
-
-    void updateCoreUsageLinux(QTextStream &in);
-#endif // Q_OS_LINUX
-
-    double_t _usage = 0;
     QTimer *_timer;
     QVector<double_t> _perCoreUsage;
 
